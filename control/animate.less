@@ -1,0 +1,44 @@
+/*
+动画
+@animate 动画属性集合（name,timing,duration,delay,infinite,direction,state）
+@mode:both 动画结束状态
+*/
+.animated(@animate,@mode:both) {
+  -webkit-animation:@animate;
+  animation:@animate;
+  -webkit-animation-fill-mode: @mode;
+  animation-fill-mode: @mode;
+}
+
+/*
+动画延迟
+@duration 延迟时间
+*/
+.delay(@duration){
+  -webkit-animation-delay: @duration;
+  animation-delay: @duration;
+}
+
+/*
+动画过渡
+@trans：过度属性集合（name,timing,duration,delay）
+*/
+.transform(@trans){
+  -webkit-transform:@trans;
+  transform:@trans;
+}
+
+/*
+动画执行次数
+@infinite 次数
+*/
+.infinite(@infinite:infinite) {
+  -webkit-animation-iteration-count: @infinite;
+  animation-iteration-count: @infinite;
+}
+
+.timing(@timing){
+  -webkit-animation-timing-function: @timing;
+  animation-timing-function: @timing;
+}
+

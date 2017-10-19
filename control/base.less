@@ -1,0 +1,27 @@
+/*路径定义*/
+@base-url:"..";
+
+/*单位计算*/
+@rem:32rem;
+
+/*宽高*/
+.wh(@w:auto,@h:auto,@numb:" "){
+  width: @w;
+  height: @h;
+
+  .line-height(@numb);
+}
+.line-height (@numb) when not (isstring(@numb)){
+  line-height:@numb;
+}
+
+/*
+透明度
+@rgba_a：opacity 透明度值
+@rgba_b：filter 透明度值
+*/
+.rgba(@rgba:40){
+  filter: alpha(opacity=@rgba);
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=@{rgba})";
+  opacity:@rgba / 100;
+}

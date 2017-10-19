@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/public.css">
+    <link rel="stylesheet" href="css/test.css">
+    <link rel="stylesheet" href="css/keyFrame2.css">
+</head>
+<body>
+<div id="pages-container" class="pages-container">
+    <div class="page page1">1</div>
+    <div class="page page2 hide">2</div>
+    <div class="page page3 hide">3</div>
+    <div class="page page4 hide">4</div>
+</div>
+<script src="js/public.js"></script>
+<script>
+    window.onload=function(){
+        var pointy;
+        var offsety;
+        var dis=50;
+        var inx=0,pre=0;
+        var startTime ,endTime;
+
+        var isAnimate=false;
+        var dom=document.getElementById('pages-container');
+        var pages=document.querySelectorAll('.page');
+
+        var touchstart=function (e) {
+            var oEvent = eventUtil.getEvent(e);
+            startTime=Date.now();
+            pointy=oEvent.touches[0].pageY;
+            offsety=0;
+        }
+
+        var touchmove=function(e){
+            var oEvent = eventUtil.getEvent(e);
+            eventUtil.preventDefault(e)
+            offsety = oEvent.touches[0].pageY - pointy;
+        }
+
+        var touchend=function(e){
+            endTime=Date.now();
+            time=endTime - startTime;
+            if(offsety > dis && time<150){
+                down();
+            }else if(offsety < -dis && time<150){
+                up();
+            }
+        }
+
+
+        eventUtil.addEvent(dom,'touchstart',touchstart);
+        eventUtil.addEvent(dom,'touchmove',touchmove);
+        eventUtil.addEvent(dom,'touchend',touchend);
+
+
+        function down(){
+            if(!isAnimate){
+                if(inx == 0){
+                    pre=inx;
+                    inx=pages.length-1;
+                }else {
+                    pre=inx;
+                    inx--;
+                }
+            }
+            go('up');
+        }
+
+        function up(){
+            if(!isAnimate){
+                if(inx == pages.length-1){
+                    pre=inx;
+                    inx=0;
+                }else {
+                    pre=inx;
+                    inx++;
+                }
+            }
+            go('down');
+        }
+
+        function go(state){
+            var outCss='';
+            var inCss='';
+
+            if(state == 'down'){
+                outCss='outTop';
+                inCss='fromBottom';
+            }else if(state == 'up'){
+                outCss='outBottom';
+                inCss='fromTop';
+            }
+
+            pages[inx].classList.remove('hide');
+            pages[inx].classList.add(inCss);
+            pages[pre].classList.add(outCss);
+
+            isAnimate=true;
+            setTimeout(function(){
+                pages[pre].classList.remove(outCss);
+                pages[inx].classList.remove(inCss);
+                pages[pre].classList.add('hide');
+                isAnimate=false;
+            },600)
+        }
+    }
+</script>
+</body>
+</html>
